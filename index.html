@@ -10,7 +10,7 @@
 <body>
     <div id="result"></div>
     <script>
-        var liffId = "1657476615-BZG6moLn";
+        var liffId = "1657476615-prxaVOkK";
         function share(w, h, p, no) {
             var flex_msg = [
                 {
@@ -85,7 +85,6 @@
                 });
             };
 		}
-        // $("span[class=mdCMN09Image]")[0].getBoundingClientRect().height
 
         liff.init({
             liffId: liffId
@@ -102,20 +101,37 @@
                     data = data.replace(/(\<script.*CDATA.*\n.*(w, d, s, l, i)(.|[\r\n])*gtm(.|[\r\n])*TVHZDL.*\n.*script\>)/, '');
                     data = data.replace(/(\<script.*\n.*OPTIONS.config.oa(.|[\r\n])*}\);\n.*script\>)/, '');
                     data = data.replace(/(.*lc\.line\.store\.sp\.main\.js.*)/, '');
+                    data = data.replace(/(\<p\ class\=\"mdCMN37Img\ FnImage\"\ ).*\n.*data\-src\=\"(http.*)\".*/g,'$1style="background-image:url($2)\"></p>')
                     $("#result").html(data);
-                    $(".MdLoader.FnLoading")[0].style.display = "none";
-                    $(".MdLoader.FnReloadBtn")[0].style.display = "none";
-                    $("span[class=mdCMN09Image]:eq(1)")[0].getBoundingClientRect().height
-                    $("span[class=mdCMN09Image]").on('click', function (e) {
-                        var $target = $(e.target)[0];
-                        var url = $target.style.backgroundImage.match(/https[^"]*/g)[0];
-                        var actualImage = new Image();
-                        actualImage.src = url;
-                        actualImage.onload = function() {
-                            share(actualImage.width, actualImage.height, url, no);
-                        };
-                        // $target.getBoundingClientRect().height
-                    })
+                    if ($(".MdLoader.FnLoading")[0] && $(".MdLoader.FnReloadBtn")[0]) {
+                        $(".MdLoader.FnLoading")[0].style.display = "none";
+                        $(".MdLoader.FnReloadBtn")[0].style.display = "none";
+                        $("span[class=mdCMN09Image]").on('click', function (e) {
+                            var $target = $(e.target)[0];
+                            var url = $target.style.backgroundImage.match(/https[^"]*/g)[0];
+                            var actualImage = new Image();
+                            actualImage.src = url;
+                            actualImage.onload = function() {
+                                share(actualImage.width, actualImage.height, url, no);
+                            };
+                        })
+                    } else {
+                        $(".MdLoading02.FnLoading")[0].style.display = "none";
+                        $(".MdReload01.FnReloadBtn")[0].style.display = "none";
+                        $("li[class=FnStickerPreviewItem]").on('click', function (e) {
+                            var $target = $(e.target);
+                            var url = $target.find('.mdCMN37ExpandImg.FnPreviewImage.MdNonDisp').attr('data-src');
+                            var actualImage = new Image();
+                            actualImage.src = url;
+                            actualImage.onload = function() {
+                                share(actualImage.width, actualImage.height, url, no);
+                            };
+                            // $("span[class=mdCMN09Image]:eq(1)")[0].getBoundingClientRect().height
+                            // $target.getBoundingClientRect().height
+                        })
+                    }
+                    
+
                 });
             }
         })
