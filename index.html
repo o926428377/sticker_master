@@ -78,7 +78,7 @@
                 }).catch(function(res) {
                     Swal.fire({
                         icon: 'error',
-                        title: '系統忙碌，請重新操作',
+                        title: `系統忙碌，請重新操作(${w}, ${h}, ${p}, ${no})`,
                     }).then((result) => {
                         liff.closeWindow();
                     });
