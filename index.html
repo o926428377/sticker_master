@@ -12,78 +12,79 @@
     <script>
         var liffId = "1657476615-BZG6moLn";
         function share(w, h, p, no) {
-            var flex_msg = [
-                {
-                    "type": "flex",
-                    "altText": "向您傳送了貼圖",
-                    "contents": {
-                        "type": "bubble",
-                        "size": "giga",
-                        "body": {
-                            "type": "box",
-                            "layout": "vertical",
-                            "contents": [
-                            {
-                                "type": "image",
-                                "url": `${p}`,
-                                "size": "100%",
-                                "backgroundColor": "#00000000",
-                                "animated": true,
-                                "aspectRatio": `${w}:${h}`,
-                                "aspectMode": "fit"
-                            }
-                            ],
-                            "background": {
-                            "type": "linearGradient",
-                            "angle": "25deg",
-                            "startColor": "#E19405",
-                            "endColor": "#ffffff"
-                            },
-                            "action": {
-                            "type": "uri",
-                            "label": "action",
-                            "uri": `https://line.me/S/sticker/${no}/?lang=zh-Hant&utm_source=gnsh_stickerDetail`
-                            },
-			    "paddingAll": "0px"
-                        },
-                        "styles": {
-                            "header": {
-                            "backgroundColor": "#00000000"
-                            },
-                            "hero": {
-                            "backgroundColor": "#00000000"
-                            }
-                        }
-                    }
-                }
-            ];
-            
             if (!liff.isLoggedIn()) {
                 liff.login({ redirectUri: window.location.href.split('?')[0]});
             } else {
-                console.log(flex_msg);
+                // console.log(flex_msg);
                 if (!liff.isApiAvailable('shareTargetPicker')) throw new Error('不支援 shareTargetPicker，請嘗試更新應用程式版本。');
-                liff.shareTargetPicker(flex_msg)
-                .then(function(res) {
-                    if (res) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '分享成功',
-                        }).then((result) => {
-                            if (share) {
-                                window.location.href = window.location.href.split('?')[0] + '?verify=true';
+                liff.getProfile().then(profile => {
+                    var flex_msg = [
+                        {
+                            "type": "flex",
+                            "altText": `${profile.displayName}向您傳送了貼圖`,
+                            "contents": {
+                                "type": "bubble",
+                                "size": "giga",
+                                "body": {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                    {
+                                        "type": "image",
+                                        "url": `${p}`,
+                                        "size": "100%",
+                                        "backgroundColor": "#00000000",
+                                        "animated": true,
+                                        "aspectRatio": `${w}:${h}`,
+                                        "aspectMode": "fit"
+                                    }
+                                    ],
+                                    "background": {
+                                    "type": "linearGradient",
+                                    "angle": "25deg",
+                                    "startColor": "#E19405",
+                                    "endColor": "#ffffff"
+                                    },
+                                    "action": {
+                                    "type": "uri",
+                                    "label": "action",
+                                    "uri": `https://line.me/S/sticker/${no}/?lang=zh-Hant&utm_source=gnsh_stickerDetail`
+                                    },
+                                    "paddingAll": "0px"
+                                },
+                                "styles": {
+                                    "header": {
+                                    "backgroundColor": "#00000000"
+                                    },
+                                    "hero": {
+                                    "backgroundColor": "#00000000"
+                                    }
+                                }
                             }
+                        }
+                    ];
+                    liff.shareTargetPicker(flex_msg)
+                    .then(function(res) {
+                        if (res) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '分享成功',
+                            }).then((result) => {
+                                if (share) {
+                                    window.location.href = window.location.href.split('?')[0] + '?verify=true';
+                                }
+                                liff.closeWindow();
+                            });
+                        }
+                    }).catch(function(res) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `系統忙碌，請重新操作(${w}, ${h}, ${p}, ${no})`,
+                        }).then((result) => {
                             liff.closeWindow();
                         });
-                    }
-                }).catch(function(res) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: `系統忙碌，請重新操作(${w}, ${h}, ${p}, ${no})`,
-                    }).then((result) => {
-                        liff.closeWindow();
                     });
-                });
+                })
             };
 		}
 
