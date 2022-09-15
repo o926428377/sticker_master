@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <title>Line Sticker Router</title>
+        <meta charset="utf-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    </head>
+<body>
+    <div id="result"></div>
+    <script>
+        var liffId = "1657476615-prxaVOkK";
+        function share(w, h, p, no) {
+            var flex_msg = [
+                {
+                    "type": "flex",
+                    "altText": "向您傳送了貼圖",
+                    "contents": {
+                        "type": "bubble",
+                        "size": "giga",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                            {
+                                "type": "image",
+                                "url": `${p}`,
+                                "size": "100%",
+                                "backgroundColor": "#00000000",
+                                "animated": true,
+                                "aspectRatio": `${w}:${h}`,
+                                "aspectMode": "fit"
+                            }
+                            ],
+                            "background": {
+                            "type": "linearGradient",
+                            "angle": "25deg",
+                            "startColor": "#E19405",
+                            "endColor": "#ffffff"
+                            },
+                            "action": {
+                            "type": "uri",
+                            "label": "action",
+                            "uri": `https://line.me/S/sticker/${no}/?lang=zh-Hant&utm_source=gnsh_stickerDetail`
+                            }
+                        },
+                        "styles": {
+                            "header": {
+                            "backgroundColor": "#00000000"
+                            },
+                            "hero": {
+                            "backgroundColor": "#00000000"
+                            }
+                        }
+                    }
+                }
+            ];
+            
+            if (!liff.isLoggedIn()) {
+                liff.login({ redirectUri: window.location.href.split('?')[0]});
+            } else {
+                console.log(flex_msg);
+                if (!liff.isApiAvailable('shareTargetPicker')) throw new Error('不支援 shareTargetPicker，請嘗試更新應用程式版本。');
+                liff.shareTargetPicker(flex_msg)
+                .then(function(res) {
+                    if (res) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '分享成功',
+                        }).then((result) => {
+                            if (share) {
+                                window.location.href = window.location.href.split('?')[0] + '?verify=true';
+                            }
+                            liff.closeWindow();
+                        });
+                    }
+                }).catch(function(res) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '系統忙碌，請重新操作',
+                    }).then((result) => {
+                        liff.closeWindow();
+                    });
+                });
+            };
+		}
+        // $("span[class=mdCMN09Image]")[0].getBoundingClientRect().height
+
+        liff.init({
+            liffId: liffId
+        }).then(function() {
+            if (!liff.isLoggedIn()) {
+                liff.login({ redirectUri: window.location.href.split('?')[0] });
+            } else {
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                const no = urlParams.get('no') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('no') : "19236381");
+                $.get( `https://cors-anywhere.herokuapp.com/https://store.line.me/stickershop/product/${no}/zh-Hant?from=sticker`, function( data ) {
+                    data = data.replace(/(\<script.*\n.*messages.*\n.*\n.*\n.*\n.*spaScript.*script\>)/, '');
+                    data = data.replace(/(\<script.*lc.line.store.pc.main.js.*script\>)/, '');
+                    data = data.replace(/(\<script.*CDATA.*\n.*(w, d, s, l, i)(.|[\r\n])*gtm(.|[\r\n])*TVHZDL.*\n.*script\>)/, '');
+                    data = data.replace(/(\<script.*\n.*OPTIONS.config.oa(.|[\r\n])*}\);\n.*script\>)/, '');
+                    data = data.replace(/(.*lc\.line\.store\.sp\.main\.js.*)/, '');
+                    $("#result").html(data);
+                    $(".MdLoader.FnLoading")[0].style.display = "none";
+                    $(".MdLoader.FnReloadBtn")[0].style.display = "none";
+                    $("span[class=mdCMN09Image]:eq(1)")[0].getBoundingClientRect().height
+                    $("span[class=mdCMN09Image]").on('click', function (e) {
+                        var $target = $(e.target)[0];
+                        var url = $target.style.backgroundImage.match(/https[^"]*/g)[0];
+                        var actualImage = new Image();
+                        actualImage.src = url;
+                        actualImage.onload = function() {
+                            share(actualImage.width, actualImage.height, url, no);
+                        };
+                        // $target.getBoundingClientRect().height
+                    })
+                });
+            }
+        })
+    </script>
+</body>
+</html>
