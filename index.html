@@ -10,8 +10,9 @@
 <body>
     <div id="result"></div>
     <script>
+        var host = "https://cors-anywhere.herokuapp.com/https://store.line.me/stickershop";
         var liffId = "1657476615-BZG6moLn";
-        function share(w, h, p, no) {
+        function share(w, h, p, no, s) {
             if (!liff.isLoggedIn()) {
                 liff.login({ redirectUri: window.location.href.split('?')[0]});
             } else {
@@ -24,7 +25,7 @@
                             "altText": `${profile.displayName}向您傳送了貼圖`,
                             "contents": {
                                 "type": "bubble",
-                                "size": "giga",
+                                "size": `${s}`,
                                 "body": {
                                     "type": "box",
                                     "layout": "vertical",
@@ -87,7 +88,6 @@
                 })
             };
 		}
-
         liff.init({
             liffId: liffId
         }).then(function() {
@@ -98,11 +98,12 @@
                 const urlParams = new URLSearchParams(queryString);
                 const no = urlParams.get('no') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('no') : "19236381");
                 const author = urlParams.get('author') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('author') : null);
+                const size = urlParams.get('size') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('size') : null);
                 var url;
                 if (author) {
-                    url =  `https://cors-anywhere.herokuapp.com/https://store.line.me/stickershop/author/${author}/zh-Hant?lang=zh-Hant&utm_source=gnsh_staut`;
+                    url =  `${host}/author/${author}/zh-Hant?lang=zh-Hant&utm_source=gnsh_staut`;
                 } else {
-                    url = `https://cors-anywhere.herokuapp.com/https://store.line.me/stickershop/product/${no}/zh-Hant?from=sticker`;
+                    url = `${host}/product/${no}/zh-Hant?from=sticker`;
                 }
                 $.get( url, function( data ) {
                     data = data.replace(/(\<script.*\n.*messages.*\n.*\n.*\n.*\n.*spaScript.*script\>)/, '');
@@ -111,12 +112,11 @@
                     data = data.replace(/(\<script.*\n.*OPTIONS.config.oa(.|[\r\n])*}\);\n.*script\>)/, '');
                     data = data.replace(/(.*lc\.line\.store\.sp\.main\.js.*)/, '');
                     data = data.replace(/(\<p\ class\=\"mdCMN37Img\ FnImage\"\ ).*\n.*data\-src\=\"(http.*)\".*/g,'$1style="background-image:url($2)\"></p>')
-                    data = data.replace(/\/stickershop\/product\/(\d*)\/zh-Hant/g, '?no=$1');
-                    data = data.replace(/\/stickershop\/author\/(\d*)\/zh-Hant/g, '?author=$1');
+                    data = data.replace(/\/stickershop\/product\/(\d*)\/zh-Hant/g, '?no=$1' + (size?`&size=${size}`:''));
+                    data = data.replace(/\/stickershop\/author\/(\d*)\/zh-Hant/g, '?author=$1' + (size?`&size=${size}`:''));
                     data = data.replace(/https.*bg_feedImg.png\"\n.*\"(.*thumbnail_shop\.png\;compress\=true\"\ class\=\"b\-lazy)\"/g, '$1 b-loaded"');
                     data = data.replace(/https.*bg_feedImg.png\"\n.*\"(.*thumbnail_shop\.png\;compress\=true\"\ class\=\"swiper\-lazy)\"/g, '$1 swiper-lazy-loaded"');
                     data = data.replace(/https.*bg_feedImg.png\".*data\-src\=\"(.*thumbnail_shop\.png\;compress\=true)\"/g, '$1"');
-                    console.log(data);
                     $("#result").html(data);
                     if (author) {
                         //
@@ -141,7 +141,7 @@
                             var actualImage = new Image();
                             actualImage.src = url;
                             actualImage.onload = function() {
-                                share(actualImage.width, actualImage.height, url, no);
+                                share(actualImage.width, actualImage.height, url, no, size||'mega');
                             };
                             // $("span[class=mdCMN09Image]:eq(1)")[0].getBoundingClientRect().height
                             // $target.getBoundingClientRect().height
