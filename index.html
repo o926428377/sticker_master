@@ -111,7 +111,7 @@
                     data = data.replace(/(\<script.*\n.*OPTIONS.config.oa(.|[\r\n])*}\);\n.*script\>)/, '');
                     data = data.replace(/(.*lc\.line\.store\.sp\.main\.js.*)/, '');
                     data = data.replace(/(\<p\ class\=\"mdCMN37Img\ FnImage\"\ ).*\n.*data\-src\=\"(http.*)\".*/g,'$1style="background-image:url($2)\"></p>')
-                    data = data.replace(/stickershop\/product\/(\d*)\/zh-Hant/g, '?no=$1');
+                    data = data.replace(/\/stickershop\/product\/(\d*)\/zh-Hant/g, '?no=$1');
                     data = data.replace(/https.*bg_feedImg.png\"\n.*\"(.*thumbnail_shop\.png\;compress\=true\"\ class\=\"b\-lazy)\"/g, '$1 b-loaded"');
                     $("#result").html(data);
                     if (author) {
