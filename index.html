@@ -80,7 +80,7 @@
                     }).catch(function(res) {
                         Swal.fire({
                             icon: 'error',
-                            title: `系統忙碌，請重新操作(${w}, ${h}, ${p}, ${no})`,
+                            title: `系統忙碌，請重新操作(${w}, ${h}, ${p}, ${no}, ${s})`,
                         }).then((result) => {
                             liff.closeWindow();
                         });
@@ -112,14 +112,14 @@
                     data = data.replace(/(\<script.*\n.*OPTIONS.config.oa(.|[\r\n])*}\);\n.*script\>)/, '');
                     data = data.replace(/(.*lc\.line\.store\.sp\.main\.js.*)/, '');
                     data = data.replace(/(\<p\ class\=\"mdCMN37Img\ FnImage\"\ ).*\n.*data\-src\=\"(http.*)\".*/g,'$1style="background-image:url($2)\"></p>')
-                    data = data.replace(/\/stickershop\/product\/(\d*)\/zh-Hant/g, '?no=$1' + (size?`&size=${size}`:''));
-                    data = data.replace(/\/stickershop\/author\/(\d*)\/zh-Hant/g, '?author=$1' + (size?`&size=${size}`:''));
+                    data = data.replace(/\/stickershop\/product\/(\d*)\/zh-Hant[^\"]*/g, '?no=$1' + (size?`&size=${size}`:''));
+                    data = data.replace(/\/stickershop\/author\/(\d*)\/zh-Hant[^\"]*/g, '?author=$1' + (size?`&size=${size}`:''));
                     data = data.replace(/https.*bg_feedImg.png\"\n.*\"(.*thumbnail_shop\.png\;compress\=true\"\ class\=\"b\-lazy)\"/g, '$1 b-loaded"');
                     data = data.replace(/https.*bg_feedImg.png\"\n.*\"(.*thumbnail_shop\.png\;compress\=true\"\ class\=\"swiper\-lazy)\"/g, '$1 swiper-lazy-loaded"');
                     data = data.replace(/https.*bg_feedImg.png\".*data\-src\=\"(.*thumbnail_shop\.png\;compress\=true)\"/g, '$1"');
                     $("#result").html(data);
                     if (author) {
-                        //
+                        // 
                     } else if ($(".MdLoader.FnLoading")[0] && $(".MdLoader.FnReloadBtn")[0]) {
                         $(".MdLoader.FnLoading")[0].style.display = "none";
                         $(".MdLoader.FnReloadBtn")[0].style.display = "none";
@@ -129,7 +129,7 @@
                             var actualImage = new Image();
                             actualImage.src = url;
                             actualImage.onload = function() {
-                                share(actualImage.width, actualImage.height, url, no);
+                                share(actualImage.width, actualImage.height, url, no, size||'mega');
                             };
                         })
                     } else {
