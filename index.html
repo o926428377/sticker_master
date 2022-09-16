@@ -97,15 +97,26 @@
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
                 const no = urlParams.get('no') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('no') : "19236381");
-                $.get( `https://cors-anywhere.herokuapp.com/https://store.line.me/stickershop/product/${no}/zh-Hant?from=sticker`, function( data ) {
+                const author = urlParams.get('author') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('author') : null);
+                var url;
+                if (author) {
+                    url =  `https://cors-anywhere.herokuapp.com/https://store.line.me/stickershop/author/${author}/zh-Hant?lang=zh-Hant&utm_source=gnsh_staut`;
+                } else {
+                    url = `https://cors-anywhere.herokuapp.com/https://store.line.me/stickershop/product/${no}/zh-Hant?from=sticker`;
+                }
+                $.get( url, function( data ) {
                     data = data.replace(/(\<script.*\n.*messages.*\n.*\n.*\n.*\n.*spaScript.*script\>)/, '');
                     data = data.replace(/(\<script.*lc.line.store.pc.main.js.*script\>)/, '');
                     data = data.replace(/(\<script.*CDATA.*\n.*(w, d, s, l, i)(.|[\r\n])*gtm(.|[\r\n])*TVHZDL.*\n.*script\>)/, '');
                     data = data.replace(/(\<script.*\n.*OPTIONS.config.oa(.|[\r\n])*}\);\n.*script\>)/, '');
                     data = data.replace(/(.*lc\.line\.store\.sp\.main\.js.*)/, '');
                     data = data.replace(/(\<p\ class\=\"mdCMN37Img\ FnImage\"\ ).*\n.*data\-src\=\"(http.*)\".*/g,'$1style="background-image:url($2)\"></p>')
+                    data = data.replace(/stickershop\/product\/(\d*)\/zh-Hant/g, '?no=$1');
+                    data = data.replace(/https.*bg_feedImg.png\"\n.*\"(.*thumbnail_shop\.png\;compress\=true\"\ class\=\"b\-lazy)\"/g, '$1 b-loaded"');
                     $("#result").html(data);
-                    if ($(".MdLoader.FnLoading")[0] && $(".MdLoader.FnReloadBtn")[0]) {
+                    if (author) {
+                        //
+                    } else if ($(".MdLoader.FnLoading")[0] && $(".MdLoader.FnReloadBtn")[0]) {
                         $(".MdLoader.FnLoading")[0].style.display = "none";
                         $(".MdLoader.FnReloadBtn")[0].style.display = "none";
                         $("span[class=mdCMN09Image]").on('click', function (e) {
