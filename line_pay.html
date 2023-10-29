@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Line Sticker Router</title>
+        <title>Send Fake LINE Pay</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=320">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -20,8 +20,6 @@
             str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             return str.join('.');
         }
-
-        var host = "https://cors-anywhere.herokuapp.com/https://store.line.me/stickershop";
         var liffId = "1657476615-omqRxMBV";
         function share() {
             if (!liff.isLoggedIn()) {
