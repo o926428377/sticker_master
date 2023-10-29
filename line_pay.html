@@ -38,91 +38,97 @@
                     "type": "bubble",
                     "size": "hecto",
                     "hero": {
-                    "type": "image",
-                    "url": "https://i.imgur.com/8bPnyqb.png",
-                    "size": "full",
-                    "aspectRatio": "20:13",
-                    "aspectMode": "cover",
-                    "action": {
-                    "type": "uri",
-                    "uri": "http://linecorp.com/"
-                    }
+                        "type": "image",
+                        "url": "https://i.imgur.com/97eQfxx.png",
+                        "size": "full",
+                        "aspectRatio": "1772:1096",
+                        "aspectMode": "cover"
                     },
                     "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                    {
-                    "type": "text",
-                    "text": "接收  (LINE Pay)",
-                    "weight": "bold",
-                    "size": "sm",
-                    "offsetBottom": "0px",
-                    "offsetTop": "0px"
-                    },
-                    {
-                    "type": "text",
-                    "text": `您已收到NT$ ${separator(money)}。  (來自：${profile.displayName})`,
-                    "color": "#aaaaaa",
-                    "size": "xs",
-                    "flex": 1,
-                    "wrap": true
-                    },
-                    {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                        {
-                        "type": "text",
-                        "text": "暸解更多",
-                        "align": "center",
-                        "size": "xs",
-                        "weight": "bold"
-                        }
-                    ],
-                    "backgroundColor": "#ededed",
-                    "cornerRadius": "5px",
-                    "paddingAll": "8px",
-                    "margin": "12px"
-                    },
-                    {
-                    "type": "separator",
-                    "margin": "lg"
-                    },
-                    {
-                    "type": "box",
-                    "layout": "horizontal",
-                    "contents": [
-                        {
                         "type": "box",
                         "layout": "vertical",
                         "contents": [
+                        {
+                            "type": "text",
+                            "text": "接收  (LINE Pay)",
+                            "weight": "bold",
+                            "size": "sm",
+                            "offsetBottom": "0px",
+                            "offsetTop": "0px"
+                        },
+                        {
+                            "type": "text",
+                            "text": `您已收到NT$ ${separator(money)}。  (來自：${profile.displayName})`,
+                            "color": "#aaaaaa",
+                            "size": "xs",
+                            "flex": 1,
+                            "wrap": true
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
                             {
-                            "type": "image",
-                            "url": "https://i.imgur.com/x7QRpyc.png",
-                            "size": "13px",
-                            "margin": "0px"
+                                "type": "text",
+                                "text": "暸解更多",
+                                "align": "center",
+                                "size": "xs",
+                                "weight": "bold"
                             }
-                        ],
-                        "width": "20px"
+                            ],
+                            "backgroundColor": "#ededed",
+                            "cornerRadius": "5px",
+                            "paddingAll": "8px",
+                            "margin": "12px",
+                            "action": {
+                            "type": "uri",
+                            "label": "action",
+                            "uri": "https://liff.line.me/1657476615-omqRxMBV"
+                            }
                         },
                         {
-                        "type": "text",
-                        "text": "LINE Pay",
-                        "size": "xxs",
-                        "color": "#aaaaaa"
+                            "type": "separator",
+                            "margin": "lg"
                         },
                         {
-                        "type": "text",
-                        "text": ">",
-                        "align": "end",
-                        "color": "#aaaaaa",
-                        "size": "xxs"
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                {
+                                    "type": "image",
+                                    "url": "https://i.imgur.com/x7QRpyc.png",
+                                    "size": "13px",
+                                    "margin": "0px"
+                                }
+                                ],
+                                "width": "20px"
+                            },
+                            {
+                                "type": "text",
+                                "text": "LINE Pay",
+                                "size": "xxs",
+                                "color": "#aaaaaa"
+                            },
+                            {
+                                "type": "text",
+                                "text": ">",
+                                "align": "end",
+                                "color": "#aaaaaa",
+                                "size": "xxs"
+                            }
+                            ],
+                            "margin": "sm",
+                            "action": {
+                            "type": "uri",
+                            "label": "我的錢包",
+                            "uri": "https://line.me/R/nv/wallet"
+                            }
                         }
-                    ],
-                    "margin": "sm"
-                    }
-                    ]
+                        ]
                     }
                     }}];
                     liff.shareTargetPicker(flex_msg)
