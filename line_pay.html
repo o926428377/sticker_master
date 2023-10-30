@@ -25,6 +25,8 @@
         <img src="https://i.imgur.com/eVk8n8I.jpg" alt="ZOSS Hair" style="width: 100%;">
     </div>
     <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
         function separator(numb) {
             var str = numb.toString().split('.');
             str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -33,7 +35,7 @@
         var liffId = "1657476615-omqRxMBV";
         function share() {
             var money = $( "#money" ).val();
-            if (!liff.isLoggedIn()) {
+            if (verify !== "true" ) {
                 liff.init({
                     liffId: liffId
                 }).then(function() {
@@ -169,11 +171,7 @@
             };
 		}
 
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
         window.onload=function(){
-            const _money = urlParams.get('money') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('money') : null);
-            const verify = urlParams.get('verify') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('verify') : "false");
             if (verify === "true" ) {
                 if (_money!==null) {
                     $("#money").val(_money);
