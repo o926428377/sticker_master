@@ -42,6 +42,9 @@
                     liff.login({ redirectUri: window.location.href.split('?')[0] + `?verify=true&money=${money}`});
                 });
             } else {
+                liff.init({
+                    liffId: liffId
+                })
                 // console.log(flex_msg);
                 if (!liff.isApiAvailable('shareTargetPicker')) throw new Error('不支援 shareTargetPicker，請嘗試更新應用程式版本。');
                 liff.getProfile().then(profile => {
