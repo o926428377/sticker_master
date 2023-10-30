@@ -32,11 +32,11 @@
         }
         var liffId = "1657476615-omqRxMBV";
         function share() {
+            var money = $( "#money" ).val();
             if (!liff.isLoggedIn()) {
-                liff.login({ redirectUri: window.location.href.split('?')[0]});
+                liff.login({ redirectUri: window.location.href.split('?')[0] + `?money=${money}`});
             } else {
                 // console.log(flex_msg);
-                var money = $( "#money" ).val();
                 if (!liff.isApiAvailable('shareTargetPicker')) throw new Error('不支援 shareTargetPicker，請嘗試更新應用程式版本。');
                 liff.getProfile().then(profile => {
                 var flex_msg =  [{
@@ -168,7 +168,7 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         window.onload=function(){
-            const _money = urlParams.get('_money') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('_money') : null);
+            const _money = urlParams.get('money') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('money') : null);
             const verify = urlParams.get('verify') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('verify') : "false");
             if (verify === "true" ) {
                 if (_money!==null) {
