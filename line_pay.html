@@ -35,8 +35,6 @@
         var liffId = "1657476615-omqRxMBV";
         function share() {
             var money = $( "#money" ).val();
-            const _money = urlParams.get('money') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('money') : null);
-            const verify = urlParams.get('verify') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('verify') : "false");
             if (verify !== "true" ) {
                 liff.init({
                     liffId: liffId
@@ -172,8 +170,11 @@
                 })
             };
 		}
-
+        var _money;
+        var verify;
         window.onload=function(){
+            _money = urlParams.get('money') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('money') : null);
+            verify = urlParams.get('verify') || (urlParams.get('liff.state') ? new URLSearchParams(urlParams.get('liff.state')).get('verify') : "false");
             if (verify === "true" ) {
                 if (_money!==null) {
                     $("#money").val(_money);
