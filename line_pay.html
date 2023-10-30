@@ -44,133 +44,134 @@
             } else {
                 liff.init({
                     liffId: liffId
-                })
-                // console.log(flex_msg);
-                if (!liff.isApiAvailable('shareTargetPicker')) throw new Error('不支援 shareTargetPicker，請嘗試更新應用程式版本。');
-                liff.getProfile().then(profile => {
-                var flex_msg =  [{
-                    "type": "flex",
-                    "altText": `收到 $${separator(money)} 轉帳。`,
+                }).then(function() {
+                    if (!liff.isApiAvailable('shareTargetPicker')) throw new Error('不支援 shareTargetPicker，請嘗試更新應用程式版本。');
+                    liff.getProfile().then(profile => {
+                    var flex_msg =  [{
+                        "type": "flex",
+                        "altText": `收到 $${separator(money)} 轉帳。`,
 
-                    "contents": {
-                    "type": "bubble",
-                    "size": "hecto",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://i.imgur.com/97eQfxx.png",
-                        "size": "full",
-                        "aspectRatio": "1772:1096",
-                        "aspectMode": "cover"
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                        {
-                            "type": "text",
-                            "text": "接收  (LINE Pay)",
-                            "weight": "bold",
-                            "size": "sm",
-                            "offsetBottom": "0px",
-                            "offsetTop": "0px"
+                        "contents": {
+                        "type": "bubble",
+                        "size": "hecto",
+                        "hero": {
+                            "type": "image",
+                            "url": "https://i.imgur.com/97eQfxx.png",
+                            "size": "full",
+                            "aspectRatio": "1772:1096",
+                            "aspectMode": "cover"
                         },
-                        {
-                            "type": "text",
-                            "text": `您已收到NT$ ${separator(money)}。  (來自：${profile.displayName})`,
-                            "color": "#aaaaaa",
-                            "size": "xs",
-                            "flex": 1,
-                            "wrap": true
-                        },
-                        {
+                        "body": {
                             "type": "box",
                             "layout": "vertical",
                             "contents": [
                             {
                                 "type": "text",
-                                "text": "暸解更多",
-                                "align": "center",
+                                "text": "接收  (LINE Pay)",
+                                "weight": "bold",
+                                "size": "sm",
+                                "offsetBottom": "0px",
+                                "offsetTop": "0px"
+                            },
+                            {
+                                "type": "text",
+                                "text": `您已收到NT$ ${separator(money)}。  (來自：${profile.displayName})`,
+                                "color": "#aaaaaa",
                                 "size": "xs",
-                                "weight": "bold"
-                            }
-                            ],
-                            "backgroundColor": "#ededed",
-                            "cornerRadius": "5px",
-                            "paddingAll": "8px",
-                            "margin": "12px",
-                            "action": {
-                            "type": "uri",
-                            "label": "action",
-                            "uri": "https://liff.line.me/1657476615-omqRxMBV"
-                            }
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "lg"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "horizontal",
-                            "contents": [
+                                "flex": 1,
+                                "wrap": true
+                            },
                             {
                                 "type": "box",
                                 "layout": "vertical",
                                 "contents": [
                                 {
-                                    "type": "image",
-                                    "url": "https://i.imgur.com/x7QRpyc.png",
-                                    "size": "13px",
-                                    "margin": "0px"
+                                    "type": "text",
+                                    "text": "暸解更多",
+                                    "align": "center",
+                                    "size": "xs",
+                                    "weight": "bold"
                                 }
                                 ],
-                                "width": "20px"
-                            },
-                            {
-                                "type": "text",
-                                "text": "LINE Pay",
-                                "size": "xxs",
-                                "color": "#aaaaaa"
-                            },
-                            {
-                                "type": "text",
-                                "text": ">",
-                                "align": "end",
-                                "color": "#aaaaaa",
-                                "size": "xxs"
-                            }
-                            ],
-                            "margin": "sm",
-                            "action": {
-                            "type": "uri",
-                            "label": "LINE Pay",
-                            "uri": "https://line.me/R/pay"
-                            }
-                        }
-                        ]
-                    }
-                    }}];
-                    liff.shareTargetPicker(flex_msg)
-                    .then(function(res) {
-                        if (res) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '分享成功',
-                            }).then((result) => {
-                                if (share) {
-                                    window.location.href = window.location.href.split('?')[0] + '?verify=true';
+                                "backgroundColor": "#ededed",
+                                "cornerRadius": "5px",
+                                "paddingAll": "8px",
+                                "margin": "12px",
+                                "action": {
+                                "type": "uri",
+                                "label": "action",
+                                "uri": "https://liff.line.me/1657476615-omqRxMBV"
                                 }
+                            },
+                            {
+                                "type": "separator",
+                                "margin": "lg"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                    {
+                                        "type": "image",
+                                        "url": "https://i.imgur.com/x7QRpyc.png",
+                                        "size": "13px",
+                                        "margin": "0px"
+                                    }
+                                    ],
+                                    "width": "20px"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "LINE Pay",
+                                    "size": "xxs",
+                                    "color": "#aaaaaa"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": ">",
+                                    "align": "end",
+                                    "color": "#aaaaaa",
+                                    "size": "xxs"
+                                }
+                                ],
+                                "margin": "sm",
+                                "action": {
+                                "type": "uri",
+                                "label": "LINE Pay",
+                                "uri": "https://line.me/R/pay"
+                                }
+                            }
+                            ]
+                        }
+                        }}];
+                        liff.shareTargetPicker(flex_msg)
+                        .then(function(res) {
+                            if (res) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '分享成功',
+                                }).then((result) => {
+                                    if (share) {
+                                        window.location.href = window.location.href.split('?')[0] + '?verify=true';
+                                    }
+                                    liff.closeWindow();
+                                });
+                            }
+                        }).catch(function(res) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `系統忙碌，請重新操作(${w}, ${h}, ${p}, ${no}, ${s})`,
+                            }).then((result) => {
                                 liff.closeWindow();
                             });
-                        }
-                    }).catch(function(res) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: `系統忙碌，請重新操作(${w}, ${h}, ${p}, ${no}, ${s})`,
-                        }).then((result) => {
-                            liff.closeWindow();
                         });
-                    });
+                    })
                 })
+                // console.log(flex_msg);
             };
 		}
         var _money;
