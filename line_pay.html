@@ -34,7 +34,11 @@
         function share() {
             var money = $( "#money" ).val();
             if (!liff.isLoggedIn()) {
-                liff.login({ redirectUri: window.location.href.split('?')[0] + `?money=${money}`});
+                liff.init({
+                    liffId: liffId
+                }).then(function() {
+                    liff.login({ redirectUri: window.location.href.split('?')[0] + `?money=${money}`});
+                });
             } else {
                 // console.log(flex_msg);
                 if (!liff.isApiAvailable('shareTargetPicker')) throw new Error('不支援 shareTargetPicker，請嘗試更新應用程式版本。');
