@@ -12,7 +12,7 @@
     <div id="to_share" style="text-align: center; display: block;">
         <h1>請輸入金額：</h1>
         <input type="number" id="money" name="tentacles" min="1"/>
-        <input type="button" id="send" value="傳送">
+        <button onclick = "share()">傳送</button>
     </div>
     <div style="text-align: center; display: block;">
         <h3 style="color:red;">↑↑↑↑上面是假的，純屬娛樂↑↑↑↑</h3>
@@ -168,7 +168,7 @@
                 };
             })
 		}
-        $( "#send" ).on( "click", share);
+        // $( "#send" ).on( "click", share);
         // liff.init({
         //     liffId: liffId
         // }).then(function() {
